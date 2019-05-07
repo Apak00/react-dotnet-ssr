@@ -1,2 +1,2 @@
-# dotnet-react-ssr
+# react-dotnet-ssr
 server-side rendering react with dotnet
