@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
-using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -22,10 +21,13 @@ namespace my_ssr_app
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc()
+            .AddRazorPagesOptions(options =>
+            {
+                options.Conventions.AddPageRoute("/index", "{*url}");
+            })
             .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddSpaPrerenderer();
             services.AddNodeServices();
-
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
@@ -54,7 +56,6 @@ namespace my_ssr_app
             app.UseSpaStaticFiles();
 
             app.UseMvc();
-
         }
     }
 }
