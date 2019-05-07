@@ -42,7 +42,6 @@ namespace my_ssr_app
             {
                 app.UseDeveloperExceptionPage();
                 app.UseWebpackDevMiddleware();
-
             }
             else
             {

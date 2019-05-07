@@ -2,13 +2,28 @@
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @inject Microsoft.AspNetCore.SpaServices.Prerendering.ISpaPrerenderer prerenderer
 @using Newtonsoft.Json
+@{
+    Layout = null;
+
+    var prerenderResult = await prerenderer.RenderToString("ClientApp/dist/main-server");
+    var initialReduxStateJson = prerenderResult?.Globals?["initialReduxState"]?.ToString();
+    var helmetStringsPrerender = prerenderResult?.Globals?["helmetStrings"]?.ToString();
+}
 
 <html>
 <head>
     <meta charset="utf-8" />
+    @Html.Raw(helmetStringsPrerender)
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <script>
+        window.initialReduxState = @Html.Raw(initialReduxStateJson);
+    </script>
 </head>
 <body>
-<div id="react-app">TESTING</div>
+<div id="react-app">@Html.Raw(prerenderResult?.Html)</div>
+
+<script src="~/dist/main-client.js" asp-append-version="true"></script>
 
 </body>
 </html>
